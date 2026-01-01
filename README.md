@@ -12,6 +12,7 @@ Aplikasi web untuk rekonstruksi gambar yang rusak menggunakan metode **Least Squ
 | **Haikal Fachry Akbar** | 2401020027 |
 | **Raga Akbar** | 2301020062 |
 | **Dzaky Ribal Faiz** | 2401020035 |
+| **Siti Umayah** | 2401020018 |
 
 ---
 
