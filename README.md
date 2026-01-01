@@ -1,70 +1,284 @@
-# Getting Started with Create React App
+# 🖼️ Image Restoration menggunakan Least Squares Method (LSM)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplikasi web untuk rekonstruksi gambar yang rusak menggunakan metode **Least Squares Method** dalam mata kuliah Aljabar Linear.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 👥 Anggota Kelompok
 
-### `npm start`
+| Nama | NIM |
+|------|-----|
+| **Fachrezi Bachri** | 2401020010 |
+| **Haikal Fachry Akbar** | 2401020027 |
+| **Raga Akbar** | 2301020062 |
+| **Dzaky Ribal Faiz** | 2401020035 |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📌 Tujuan Proyek
 
-### `npm test`
+Proyek ini bertujuan untuk:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Mengimplementasikan** konsep Least Squares Method (LSM) dalam penyelesaian sistem overdetermined
+2. **Menerapkan** teori Aljabar Linear dalam kasus nyata image processing
+3. **Membangun** aplikasi yang dapat merestorasi gambar yang rusak akibat noise dan piksel hilang
+4. **Meminimalkan error** rekonstruksi menggunakan weighted averaging dengan Gaussian weighting
+5. **Menganalisis** performa metode LSM menggunakan metrik RMSE (Root Mean Square Error)
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 🎯 Deskripsi Aplikasi
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Aplikasi ini merupakan implementasi **Least Squares Method** untuk **Image Restoration**. Ketika sebuah gambar mengalami kerusakan berupa:
+- **Noise** (gangguan acak pada piksel)
+- **Piksel hilang** (area hitam pada gambar)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+LSM dapat digunakan untuk mengembalikan gambar mendekati kondisi aslinya dengan cara:
+- Mengestimasi nilai piksel yang hilang dari piksel tetangga
+- Mengurangi noise menggunakan weighted averaging
+- Mengoptimalkan rekonstruksi berdasarkan informasi lokal (window 3×3)
 
-### `npm run eject`
+### 🔬 Metode yang Digunakan
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Least Squares Method (LSM)** adalah teknik optimisasi matematika yang meminimalkan jumlah kuadrat error antara nilai yang diamati dan nilai prediksi.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Formula Gaussian Weighting:**
+```
+w = e^(-distance²/2)
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Dimana piksel yang lebih dekat mendapat bobot lebih tinggi, menghasilkan rekonstruksi yang smooth dan natural.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🚀 Cara Instalasi
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Prerequisites
+Pastikan sudah terinstall:
+- **Node.js** (v14 atau lebih baru) - Download di [nodejs.org](https://nodejs.org)
+- **npm** (Node Package Manager) - Terinstall otomatis dengan Node.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Langkah Instalasi
 
-### Code Splitting
+1. **Clone atau Download Repository**
+```bash
+git clone <repository-url>
+cd image-restoration
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Atau download ZIP dan extract, lalu buka folder di terminal/command prompt.
 
-### Analyzing the Bundle Size
+2. **Install Dependencies**
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+3. **Install Tailwind CSS**
+```bash
+npm install -D tailwindcss@3.4.1 postcss@8.4.35 autoprefixer@10.4.17
+```
 
-### Making a Progressive Web App
+4. **Install Lucide React (Icons)**
+```bash
+npm install lucide-react
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+5. **Buat File Konfigurasi Tailwind**
 
-### Advanced Configuration
+**File: `tailwind.config.js`** (di root folder, sejajar dengan package.json)
+```javascript
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+**File: `postcss.config.js`** (di root folder)
+```javascript
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+```
 
-### Deployment
+6. **Edit `src/index.css`**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Ganti **SEMUA ISI** file `src/index.css` dengan:
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
 
-### `npm run build` fails to minify
+7. **Copy Kode Aplikasi**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Copy kode aplikasi ke file `src/App.js`
+
+8. **Jalankan Aplikasi**
+```bash
+npm start
+```
+
+Aplikasi akan terbuka otomatis di browser pada `http://localhost:3000`
+
+---
+
+## 📖 Cara Penggunaan
+
+### 1️⃣ Upload Gambar
+- Klik area **"Upload Gambar Anda"** (kotak dengan icon upload)
+- Pilih file gambar dari komputer (format: PNG, JPG, JPEG)
+- Gambar asli akan muncul di bagian **"Original"**
+
+### 2️⃣ Atur Parameter Kerusakan
+Sesuaikan parameter sesuai kebutuhan:
+
+**Level Noise** (0-100):
+- Mengatur intensitas noise/gangguan pada gambar
+- 0 = tidak ada noise
+- 100 = noise maksimal
+- **Rekomendasi: 20-40** untuk hasil realistis
+
+**Piksel Hilang** (0-50%):
+- Persentase piksel yang akan dihilangkan (menjadi hitam)
+- 0% = tidak ada piksel hilang
+- 50% = setengah gambar hilang
+- **Rekomendasi: 10-30%** untuk hasil optimal
+
+### 3️⃣ Rusak Gambar
+- Klik tombol **"Rusak Gambar"** (tombol biru)
+- Gambar rusak akan muncul di bagian **"Gambar Rusak"**
+- Anda akan melihat efek noise dan area hitam (piksel hilang)
+
+### 4️⃣ Restore Gambar dengan LSM
+- Klik tombol **"Restore Sekarang"** (tombol biru gelap)
+- Tunggu proses restorasi (beberapa detik)
+- Hasil restorasi akan muncul di bagian **"Hasil Restore"**
+
+### 5️⃣ Analisis Hasil
+Setelah restorasi selesai, akan muncul **Hasil Analisis Performa**:
+
+- **RMSE Gambar Rusak**: Mengukur seberapa rusak gambar (nilai tinggi = lebih rusak)
+- **RMSE Hasil Restore**: Mengukur error hasil restore (nilai rendah = lebih baik)
+- **Peningkatan**: Persentase perbaikan kualitas gambar
+
+💡 **Semakin tinggi persentase peningkatan, semakin baik performa LSM!**
+
+### 6️⃣ Download Hasil (Opsional)
+- Klik tombol **"Download"** di bawah gambar yang ingin didownload
+- Tersedia untuk gambar rusak dan hasil restore
+
+### 7️⃣ Reset
+- Klik tombol **"Reset"** untuk memulai dari awal dengan gambar baru
+
+---
+
+## 📊 Metrik Evaluasi
+
+### RMSE (Root Mean Square Error)
+```
+RMSE = √(Σ(pixel_original - pixel_predicted)² / N)
+```
+
+- **RMSE lebih rendah** = gambar lebih mendekati original
+- **Peningkatan** = (RMSE_noisy - RMSE_restored) / RMSE_noisy × 100%
+
+---
+
+## 🔧 Troubleshooting
+
+### Error: "Can't resolve 'lucide-react'"
+```bash
+npm install lucide-react
+```
+
+### Error: Tailwind CSS tidak bekerja
+1. Pastikan file `tailwind.config.js` dan `postcss.config.js` sudah dibuat
+2. Pastikan `src/index.css` berisi `@tailwind` directives
+3. Restart aplikasi: `Ctrl+C` lalu `npm start`
+
+### Error: "Image is not a constructor"
+Sudah diperbaiki dengan menggunakan `ImageIcon` dari lucide-react
+
+### Aplikasi tidak jalan
+```bash
+# Stop aplikasi (Ctrl+C)
+npm cache clean --force
+npm install
+npm start
+```
+
+---
+
+## 💻 Teknologi yang Digunakan
+
+- **React.js** - Library JavaScript untuk UI
+- **Tailwind CSS** - Framework CSS untuk styling
+- **Lucide React** - Icon library
+- **Canvas API** - Untuk manipulasi gambar
+- **JavaScript** - Implementasi algoritma LSM
+
+---
+
+## 📁 Struktur Folder
+
+```
+image-restoration/
+├── node_modules/
+├── public/
+├── src/
+│   ├── App.js              # Kode utama aplikasi
+│   ├── index.js            # Entry point
+│   └── index.css           # Tailwind CSS
+├── tailwind.config.js      # Konfigurasi Tailwind
+├── postcss.config.js       # Konfigurasi PostCSS
+├── package.json            # Dependencies
+└── README.md               # Dokumentasi ini
+```
+
+---
+
+## 🧮 Konsep Aljabar Linear yang Diterapkan
+
+### 1. Sistem Overdetermined
+Ketika jumlah persamaan (piksel tetangga) lebih banyak dari variabel (nilai piksel yang dicari), LSM mencari solusi terbaik yang meminimalkan error.
+
+### 2. Weighted Averaging
+```
+pixel_restored = Σ(weight_i × pixel_i) / Σ(weight_i)
+```
+Dimana `weight_i = e^(-distance²/2)` (Gaussian weighting)
+
+### 3. Minimisasi Error Kuadrat
+```
+min Σ(y_observed - y_predicted)²
+```
+
+### 4. Matrix Operations
+Setiap piksel dihitung berdasarkan matriks tetangga 3×3:
+```
+[p1  p2  p3]
+[p4  px  p5]
+[p6  p7  p8]
+```
+
+---
+
+## 📝 Kesimpulan
+
+Aplikasi ini berhasil mengimplementasikan **Least Squares Method** untuk rekonstruksi gambar. Metode LSM terbukti efektif dalam:
+- Mengembalikan piksel yang hilang
+- Mengurangi noise pada gambar
+- Memberikan hasil yang smooth dan natural
+
+Hasil evaluasi menggunakan metrik RMSE menunjukkan peningkatan kualitas gambar yang signifikan setelah proses restorasi.
+
+---
